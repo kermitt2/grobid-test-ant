@@ -1,4 +1,4 @@
-This project illustrates how to embed Grobid ([grobid](https://raw.github.com/kermitt2/grobid)) in your Java application using ant.
+This project illustrates how to embed [GROBID](https://raw.github.com/kermitt2/grobid) in your Java application using ant.
 
 You need to install first and build Grobid, see this link: [Build the project](http://grobid.readthedocs.org/en/latest/Install-Grobid/)
 
@@ -6,7 +6,7 @@ Via ant (or maven), this will create a jar file under: grobid/grobid-core/target
 
 Copy the Grobid jar library under grobid-test-ant/lib :
 
-> copy target/grobid-core-`<current version>`.jar `path_to_grobid_example`/grobid-example/lib
+> cp target/grobid-core-`<current version>`.jar `path_to_grobid_example`/grobid-example/lib
 
 The paths to __grobid-home__ and to the property __grobid.properties__ file must be changed in the project property file:  `grobid-example/grobid-test-ant.properties` according to your installation, for instance: 
 
