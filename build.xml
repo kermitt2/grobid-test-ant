@@ -1,0 +1,97 @@
+<?xml version="1.0" ?>
+
+<project name="grobid-test-ant" default="help" basedir=".">
+
+    <!-- global properties for this build -->
+    <property name="version" value="0.2"/>
+    <property name="compiler.debug" value="on"/>
+    <property name="compiler.generate.no.warnings" value="off"/>
+    <property name="compiler.args" value="-Dfile.encoding UTF-8"/>
+
+    <path id="classpath.standard">
+	  <pathelement location="classes"/>
+	  <pathelement location="lib/grobid-core-0.3.4-SNAPSHOT.jar"/>
+	  <pathelement location="lib/commons-io-2.0.1.jar"/>
+	  <pathelement location="lib/commons-lang3-3.0.1.jar"/>
+	  <pathelement location="lib/commons-logging-1.1.1.jar"/>
+	  <pathelement location="lib/commons-pool-1.6.jar"/>
+	  <pathelement location="lib/crfpp-1.0.2.jar"/>
+	  <pathelement location="lib/lingpipe-3.8.2.jar"/>
+	  <pathelement location="lib/log4j-1.2.17.jar"/>
+ 	  <pathelement location="lib/naming-core-0.8.jar"/>
+ 	  <pathelement location="lib/naming-java-0.8.jar"/>
+	  <pathelement location="lib/slf4j-log4j12-1.6.6.jar"/>
+	  <pathelement location="lib/slf4j-api-1.6.6.jar"/>
+	  <pathelement location="lib/wapiti-1.5.0.jar"/>
+	  <pathelement location="lib/language-detection-09-13-2011.jar"/>
+	  <pathelement location="lib/guava-16.0.1.jar"/>
+	  <pathelement location="lib/jsonic-1.3.5.jar"/>
+    </path>  
+
+<path id="classpath.other">    
+	<pathelement location="classes"/>
+      <pathelement location="lib/grobid.jar"/>
+	  
+</path>  
+
+    <target name="help">
+        <echo>
+------------------------------------------------------------------
+- Grobid_Test ${version} build script
+- Usage:
+-
+- General compilation
+- *******************
+- ant compile  		 --> compiles into classes/
+- ant jar	   		 --> builds grobid_test's jar
+- ant javadoc  		 --> builds class documentation into doc/javadoc/
+- ant clean    		 --> remove classes, jar and javadoc generated files
+- ant help     		 --> this message
+-
+- ant test		 --> run grobid on some examples
+------------------------------------------------------------------
+        </echo>
+    </target>
+
+    <target name="compile" description="Compiles grobid's classes to classes path...">
+    	<javac optimize="on"
+           debug="yes"
+           includeantruntime="false"
+           debuglevel="source,lines,vars"
+		   encoding="UTF-8"
+           destdir="classes/">
+      		<src path="src/"/>
+      		<include name="grobid_test/**"/>
+      		<classpath refid="classpath.standard"/>
+    	</javac>
+    </target>
+
+    <target name="jar" depends="compile" description="Compile, then create a grobid_test jar">
+    	<jar destfile="grobid_test_${version}.jar" basedir="lib">
+    		<fileset dir="classes" includes="**/*.class" excludes="" />
+    	</jar>
+    </target>
+
+    <target name="clean">
+        <!-- Delete the ${jar} directory trees -->
+        <delete file="grobid-batch-${version}.jar"/>
+        <delete dir="doc/javadoc"/>
+    	<delete dir="classes/grobid_batch"/>
+    </target>
+
+	<target name="test"
+          depends="compile"
+          description="Run Grobid on some examples">
+    <java classname="grobid_test.Testing"
+    	  maxmemory="1000M"
+          fork="true">
+    	<classpath refid="classpath.standard"/>
+		<sysproperty key="java.library.path" value="lib"/>
+    	<arg value="-d64" />
+    </java> 
+    </target>
+
+</project>
+
+
+
