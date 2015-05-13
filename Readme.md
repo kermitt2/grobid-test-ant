@@ -14,10 +14,10 @@ The paths to __grobid-home__ and to the property __grobid.properties__ file must
 		grobid_example.pGrobidProperties=/Users/lopez/grobid/grobid-home/config/grobid.properties
 
 You can then build and test the example project with ant:
-
+```bash
 > ant jar
 > ant test
-
+```
 
 ### API call
 
