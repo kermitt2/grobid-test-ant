@@ -6,11 +6,12 @@ import org.grobid.core.data.BibDataSet;
 import org.grobid.core.data.PatentItem;
 import org.grobid.core.engines.Engine;
 import org.grobid.core.factory.GrobidFactory;
-import org.grobid.core.mock.MockContext;
 import org.grobid.core.utilities.GrobidProperties;
+import org.grobid.core.main.GrobidHomeFinder;
 
 import java.util.Properties;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List; 
 import org.apache.commons.io.FileUtils;
 import java.io.File;
@@ -31,13 +32,11 @@ public class Testing {
     public static void main( String[] args ) {	
     	try {
 			// context variable are read from the project property file grobid-example.properties
-			Properties prop = new Properties();
-			prop.load(new FileInputStream("grobid-test-ant.properties"));
-			String pGrobidHome = prop.getProperty("grobid_test_ant.pGrobidHome");
-			String pGrobidProperties = prop.getProperty("grobid_test_ant.pGrobidProperties");
-			
-			MockContext.setInitialContext(pGrobidHome, pGrobidProperties);
-		    GrobidProperties.getInstance();
+    		Properties prop = new Properties();
+            prop.load(new FileInputStream("grobid-test-ant.properties"));
+            String pGrobidHome = prop.getProperty("grobid_test_ant.pGrobidHome");
+            GrobidHomeFinder grobidHomeFinder = new GrobidHomeFinder(Arrays.asList(pGrobidHome));
+            GrobidProperties.getInstance(grobidHomeFinder);
 
 			System.out.println(">>>>>>>> GROBID_HOME="+GrobidProperties.get_GROBID_HOME_PATH());			
 	
@@ -58,14 +57,6 @@ public class Testing {
 		catch (Exception e) {
 	    	// If an exception is generated, print a stack trace
 		    e.printStackTrace();
-		}
-		finally {
-			try {
-				MockContext.destroyInitialContext();
-			}
-			catch(Exception e) {
-				e.printStackTrace();
-			}
 		}
     }
 
